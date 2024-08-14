@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Recipe - RecipAI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container" id="recipeFormContainer">
+        <div class="header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="RecipAI Logo" class="logo">
+            <h1>Create Your Recipe</h1>
+        </div>
+        
+        <form id="recipeForm" action="/submit-recipe" method="POST" onsubmit="return showLoadingScreen()">
+            <div id="ingredients">
+                <div class="ingredient-group">
+                    <input type="text" name="ingredient_name[]" placeholder="Ingredient Name" required>
+                    <input type="number" name="ingredient_quantity[]" placeholder="Quantity" required>
+                    <select name="ingredient_unit[]">
+                        <option value="g">grams</option>
+                        <option value="ml">milliliters</option>
+                    </select>
+                </div>
+            </div>
+            <button type="button" class="add-ingredient" onclick="addIngredient()">Add Another Ingredient</button>
+
+            <div class="options">
+                <label><input type="checkbox" name="use_household_items" value="yes"> Allow household items (e.g., salt, pepper)</label>
+                <label><input type="checkbox" name="allow_extra_ingredients" value="yes"> Allow AI to add extra ingredients</label>
+                <label><input type="checkbox" name="strict_ingredients" value="yes"> Use only the provided ingredients</label>
+            </div>
+
+            <button type="submit" class="submit-button">Generate Recipe</button>
+        </form>
+    </div>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Loading" class="logo-loading">
+            <p class="loading-text">Generating your delicious recipe...</p>
+            <p class="fun-fact" id="funFact"></p>
+        </div>
+    </div>
+    
+    <script>
+        const funFacts = [
+            "Did you know? Honey never spoils.",
+            "Fun fact: Tomatoes are actually fruits!",
+            "Bananas are berries, but strawberries aren't.",
+            "Did you know? Apples float in water because they are 25% air.",
+            "Fun fact: Carrots were originally purple in color."
+        ];
+
+        let factInterval;
+
+        function showLoadingScreen() {
+            document.getElementById('recipeFormContainer').style.display = 'none';
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.style.display = 'flex';
+
+            updateFunFact(); // Show the first fact immediately
+            factInterval = setInterval(updateFunFact, 6000); // Change the fact every 6 seconds
+
+            return true; // Allows the form to submit
+        }
+
+        function updateFunFact() {
+            const randomFact = funFacts[Math.floor(Math.random() * funFacts.length)];
+            document.getElementById('funFact').textContent = randomFact;
+        }
+
+        function addIngredient() {
+            const ingredientsDiv = document.getElementById('ingredients');
+            const newIngredient = document.createElement('div');
+            newIngredient.classList.add('ingredient-group');
+            newIngredient.innerHTML = `
+                <input type="text" name="ingredient_name[]" placeholder="Ingredient Name" required>
+                <input type="number" name="ingredient_quantity[]" placeholder="Quantity" required>
+                <select name="ingredient_unit[]">
+                    <option value="g">grams</option>
+                    <option value="ml">milliliters</option>
+                </select>
+            `;
+            ingredientsDiv.appendChild(newIngredient);
+        }
+    </script>
+</body>
+</html>

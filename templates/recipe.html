@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - RecipAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<style>
+   /* Algemene body styling voor een modern donker thema */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #1e1e2f;
+    color: #fff;
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Start scrollable content at the top */
+    overflow-y: auto; /* Enable vertical scrolling */
+    scroll-behavior: smooth; /* Smooth scrolling effect */
+}
+
+/* Container styling voor de receptenpagina */
+.container {
+    background-color: #2a2a3b;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 600px;
+    text-align: left;
+    margin: 20px;
+}
+
+/* Header styling */
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header .logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+h1.recipe-header {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+}
+
+/* Ronde afbeelding van het gerecht */
+.recipe-image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.recipe-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+}
+
+.recipe-image:hover {
+    transform: scale(1.05);
+}
+
+/* Ingrediënten en instructies secties */
+.recipe-content h2 {
+    font-size: 1.4em;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #76c7c0;
+}
+
+.recipe-content ul,
+.recipe-content ol {
+    padding-left: 20px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.recipe-content li {
+    margin-bottom: 10px;
+}
+
+/* Knoppen container */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.button-container .button {
+    display: inline-block;
+    width: 48%;
+    text-align: center;
+    padding: 15px;
+    background-color: #76c7c0;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button-container .button.secondary {
+    background-color: #4a4a6a;
+}
+
+.button-container .button:hover {
+    background-color: #5aa69a;
+    box-shadow: 0px 5px 15px rgba(118, 199, 192, 0.3);
+}
+
+.button-container .button.secondary:hover {
+    background-color: #3a3a4f;
+    box-shadow: 0px 5px 15px rgba(74, 74, 106, 0.3);
+}
+
+/* Modal voor de afbeelding */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.9);
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+}
+
+.modal-content {    
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="RecipAI Logo" class="logo">
+        </div>
+
+        {% if image_url %}
+        <div class="recipe-image-container">
+            <img src="{{ image_url }}" alt="{{ title }} Image" class="recipe-image" id="myImg">
+        </div>
+        {% endif %}
+
+        <h1 class="recipe-header">{{ title }}</h1>
+
+        <div class="recipe-content">
+            <h2>Ingredients</h2>
+            <ul>
+                {% for ingredient in ingredients %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ul>
+
+            <h2>Instructions</h2>
+            <ol>
+                {% for instruction in instructions %}
+                    <li>{{ instruction }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <div class="button-container">
+            <a href="/create-recipe" class="button">Generate Another Recipe</a>
+            <a href="/" class="button secondary">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById("myImg");
+        var modalImg = document.getElementById("img01");
+
+        img.onclick = function(){
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() { 
+            modal.style.display = "none";
+        }
+    </script>
+</body>
+</html>

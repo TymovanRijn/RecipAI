@@ -1,0 +1,259 @@
+/* Algemene body styling voor een modern donker thema */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #1e1e2f;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Container styling voor een futuristische uitstraling */
+.container {
+    background-color: #2a2a3b;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInUp 1s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Styling voor de logo-animatie */
+.logo {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 20px;
+    animation: logoAnimation 1.5s ease forwards;
+}
+
+@keyframes logoAnimation {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Titel styling met animatie */
+h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    animation: textAnimation 1.5s ease forwards;
+}
+
+@keyframes textAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Paragraaf styling met animatie */
+p {
+    font-size: 1em;
+    margin-bottom: 30px;
+    animation: textAnimation 1.5s ease forwards 0.2s;
+}
+
+/* Styling voor de knop met animatie */
+.container a {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #76c7c0;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    animation: buttonAnimation 1.5s ease forwards 0.4s;
+}
+
+.container a:hover {
+    background-color: #5aa69a;
+    box-shadow: 0px 5px 15px rgba(118, 199, 192, 0.3);
+}
+
+/* Schaduweffect bij het hoveren over de knop */
+.container a:hover {
+    background-color: #5aa69a;
+    box-shadow: 0px 5px 15px rgba(118, 199, 192, 0.3);
+}
+
+/* Animatie voor de knop */
+@keyframes buttonAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Specifieke styling voor de create-recipe sectie */
+#recipeFormContainer {
+    background-color: #2a2a3b;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 450px;
+    margin-top: 50px; /* Extra ruimte aan de bovenkant voor het logo */
+}
+
+.ingredient-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.ingredient-group input[type="text"],
+.ingredient-group input[type="number"],
+.ingredient-group select {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #4a4a6a;
+    font-size: 1em;
+    background-color: #3a3a4f;
+    color: #fff;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.ingredient-group input[type="text"]:focus,
+.ingredient-group input[type="number"]:focus,
+.ingredient-group select:focus {
+    border-color: #76c7c0;
+    background-color: #323247;
+    outline: none;
+}
+
+/* Knop voor het toevoegen van extra ingrediënten */
+.add-ingredient {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 10px;
+}
+
+.add-ingredient:hover {
+    background-color: #357abd;
+    box-shadow: 0px 5px 15px rgba(70, 130, 180, 0.3);
+}
+
+/* Knop voor het genereren van een recept */
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #76c7c0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 30px;
+}
+
+.submit-button:hover {
+    background-color: #5aa69a;
+    box-shadow: 0px 5px 15px rgba(118, 199, 192, 0.3);
+}
+
+/* Opties sectie styling */
+.options {
+    margin-top: 30px;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: #b0b0b0;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.options input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #76c7c0;
+    transform: scale(1.2);
+}
+
+/* Styling voor het laadscherm */
+.loading-screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loading-content {
+    text-align: center;
+    color: #fff;
+}
+
+.logo-loading {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.fun-fact {
+    font-size: 1em;
+    font-style: italic;
+    color: #b0b0b0;
+}
